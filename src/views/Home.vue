@@ -1,18 +1,46 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-container class="container">
+      <el-aside width="200px">
+        <aside-com></aside-com>
+      </el-aside>
+      <el-container>
+        <el-header><header-com></header-com></el-header>
+        <el-main>
+          <router-view />
+        </el-main>
+        <el-footer>Footer</el-footer>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import asideCom from "../components/asideCom/index.vue";
+import HeaderCom from "../components/HeaderCom/index.vue";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    asideCom,
+    HeaderCom,
+  },
+};
 </script>
+<style lang="scss" scoped>
+.container,
+.home {
+  height: 100%;
+}
+.el-aside {
+  background-color: #f0f0f0;
+}
+.el-container {
+  background-color: #f5f5f5;
+}
+.el-header{
+  border-bottom: 1px solid #ccc;
+}
+.el-footer{
+  border-top: 1px solid #ccc;
+}
+</style>
