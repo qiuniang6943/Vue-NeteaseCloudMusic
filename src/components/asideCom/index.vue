@@ -15,7 +15,7 @@
             <i class="el-icon-document"></i>
             <span slot="title">我喜欢</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="Login">
             <i class="el-icon-setting"></i>
             <span slot="title">导航四</span>
           </el-menu-item>

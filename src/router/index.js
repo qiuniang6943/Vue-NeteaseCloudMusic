@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import MusicHall from '@/views/MusicHall.vue'
-import Video from '@/views/Video.vue'
+import Video from '@/views/Video'
 import Ilike from '@/views/Ilike.vue'
 import Login from '@/views/Login.vue'
 
@@ -27,13 +27,13 @@ const routes = [
         path: 'Ilike',
         name:'Ilike',
         component: Ilike
-      },
-      {
-        path: 'Login',
-        name:'Login',
-        component: Login
       }
     ]
+  },
+  {
+    path:'/Login',
+    name:'Login',
+    component: Login
   }
 ]
 
