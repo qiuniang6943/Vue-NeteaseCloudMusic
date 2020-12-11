@@ -46,6 +46,7 @@ export default {
           if (response.data.code === 502) {
             this.$message.error(response.data.message);
           } else {
+            document.cookie = `${response.data.cookie}`
             this.$message({
               message: "登陆成功",
               type: "success",

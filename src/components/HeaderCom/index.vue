@@ -80,7 +80,11 @@ export default {
 
       request({
         method: "get",
-        url: "/login/status",
+        url: `/login/status?cookie=${document.cookie}&timestamp=${Date.now()}`,
+        withCredentials: true,
+        // data:{
+        //   cookie : document.cookie
+        // }
       })
         .then((response) => {
           console.log(response);
@@ -90,15 +94,15 @@ export default {
           this.$store.commit("loggedIn");
         })
         .catch((error) => {
-          if (error.response.status === 301) {
-            console.log("已登陆");
-            // 修改登陆状态
-            this.$store.commit("loggedIn");
-          } else {
-            console.log(error.response.status);
-            console.log("需要登陆");
-            this.$store.commit("notLoggeIn");
-          }
+          // if (error.response.status === 301) {
+          //   console.log("已登陆");
+          //   // 修改登陆状态
+          //   this.$store.commit("loggedIn");
+          // } else {
+          console.log(error.response.status);
+          console.log("需要登陆");
+          this.$store.commit("notLoggeIn");
+          // }
         });
     },
     login() {

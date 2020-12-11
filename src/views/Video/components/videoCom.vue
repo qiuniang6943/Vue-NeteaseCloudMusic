@@ -1,10 +1,16 @@
 <template>
-  <div>11111</div>
+  <div>11111
+    
+  </div>
 </template>
 
 <script>
+import TitleCom from '../../../components/TitleCom'
 export default {
-    name:'videoCom'
+    name:'videoCom',
+    components:{
+      TitleCom
+    }
 }
 </script>
 

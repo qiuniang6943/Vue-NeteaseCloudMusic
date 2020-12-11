@@ -1,13 +1,16 @@
 <template>
   <div>
     视频
+    <title-com>最新MV</title-com>
     <video-com></video-com>
   </div>
 </template>
 
 <script>
-import VideoCom from "./components/videoCom.vue";
-import request from "../../request/request.js";
+import VideoCom from "./components/videoCom.vue"
+import request from "../../request/request.js"
+import TitleCom from '../../components/TitleCom'
+
 export default {
   name: "Video",
   data() {
@@ -33,6 +36,7 @@ export default {
   },
   components: {
     VideoCom,
+    TitleCom
   },
 };
 </script>
