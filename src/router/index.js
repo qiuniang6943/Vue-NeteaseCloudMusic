@@ -6,6 +6,7 @@ import Video from '@/views/Video'
 import Ilike from '@/views/Ilike.vue'
 import Login from '@/views/Login.vue'
 import PlayVideo from '@/views/PlayVideo'
+import Playlist from '@/views/Playlist'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
         path: 'PlayVideo/:id',
         name:'PlayVideo',
         component: PlayVideo
+      },
+      {
+        path: 'Playlist/:id',
+        name:'Playlist',
+        component: Playlist
       }
     ]
   },

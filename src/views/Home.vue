@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <el-container class="container">
-      <el-aside width="200px">
+      <el-aside width="280px">
         <aside-com></aside-com>
       </el-aside>
       <el-container>
@@ -33,14 +33,16 @@ export default {
 }
 .el-aside {
   background-color: #f0f0f0;
+  overflow-x: hidden;
+  height: 100%;
 }
 .el-container {
   background-color: #f5f5f5;
 }
-.el-header{
+.el-header {
   border-bottom: 1px solid #ccc;
 }
-.el-footer{
+.el-footer {
   border-top: 1px solid #ccc;
 }
 </style>

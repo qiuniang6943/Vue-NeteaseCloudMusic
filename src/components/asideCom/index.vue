@@ -2,7 +2,12 @@
   <div class="asideBox">
     <el-row class="tac">
       <el-col :span="24">
-        <el-menu default-active="/" class="el-menu-vertical-demo" router background-color="#f0f0f0">
+        <el-menu
+          default-active="/"
+          class="el-menu-vertical-demo"
+          router
+          background-color="#f0f0f0"
+        >
           <el-menu-item index="/">
             <i class="el-icon-location"></i>
             <span slot="title">音乐馆</span>
@@ -15,9 +20,13 @@
             <i class="el-icon-document"></i>
             <span slot="title">我喜欢</span>
           </el-menu-item>
-          <el-menu-item index="/Login">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
+          <el-menu-item
+            :index="`/Playlist/${item.id}`"
+            v-for="(item, index) in userAccount"
+            :key="index"
+          >
+            <!-- <i class="el-icon-setting"></i> -->
+            <span slot="title">{{ item.name }}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -26,11 +35,37 @@
 </template>
 
 <script>
+import request from "../../request/request.js";
 export default {
   name: "asideCom",
-  methods: {},
+  data() {
+    return {
+      userAccount: {},
+    };
+  },
+  created() {
+    this.getUserAccount();
+  },
+  methods: {
+    getUserAccount() {
+      request({
+        url: `/user/playlist?uid=41754682`,
+      })
+        .then((Response) => {
+          console.log(Response);
+          this.userAccount = Response.data.playlist;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.asideBox {
+  overflow: hidden;
+  width: 264px;
+}
 </style>

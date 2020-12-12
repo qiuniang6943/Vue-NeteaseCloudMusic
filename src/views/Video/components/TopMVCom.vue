@@ -53,7 +53,7 @@ export default {
       })
         .then((response) => {
           this.topMV = response.data.data;
-          console.log(this.topMV);
+        //   console.log(this.topMV);
         })
         .catch((error) => {
           console.log(error);
