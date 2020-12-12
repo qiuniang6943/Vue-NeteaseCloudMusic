@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="playVideoContainer">
     <!-- v-if为了防止数据还没获取过来就渲染出元素，导致无法正常获取到播放连接 -->
     <video width="100%" height="100%" controls v-if="playUrl">
       <source :src="playUrl" type="video/mp4" />
@@ -14,7 +14,7 @@
         <span>播放数:{{ MVInfo.playCount }}</span>
         <span>发布时间:{{ MVInfo.publishTime }}</span>
       </p>
-    <!-- v-if为了防止数据还没获取过来就渲染出元素，导致报错 -->
+      <!-- v-if为了防止数据还没获取过来就渲染出元素，导致报错 -->
       <div v-if="MVInfo">
         <div v-for="(item, index) in MVDesc" :key="index">{{ item }}</div>
       </div>
@@ -60,7 +60,6 @@ export default {
           console.log(response);
           this.MVInfo = response.data.data;
           console.log(this.MVInfo);
-          console.log(this.MVInfo.desc.split("\n"));
         })
         .catch((error) => {
           console.log(error);
@@ -76,4 +75,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.playVideoContainer {
+    max-width: 1300px;
+    margin: 0 auto;
+  video {
+  }
+}
 </style>
