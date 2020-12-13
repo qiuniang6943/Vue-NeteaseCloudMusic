@@ -22,7 +22,7 @@
           </el-menu-item>
           <el-menu-item
             :index="`/Playlist/${item.id}`"
-            v-for="(item, index) in userAccount"
+            v-for="(item, index) in userPlaylist"
             :key="index"
           >
             <!-- <i class="el-icon-setting"></i> -->
@@ -40,20 +40,21 @@ export default {
   name: "asideCom",
   data() {
     return {
-      userAccount: {},
+      userPlaylist: {},
     };
   },
   created() {
-    this.getUserAccount();
+    this.getUserPlaylist()
   },
   methods: {
-    getUserAccount() {
+    // 获取用户歌单列表
+    getUserPlaylist() {
       request({
-        url: `/user/playlist?uid=41754682`,
+        url: `/user/playlist?uid=${localStorage.getItem('userID')}`,
       })
         .then((Response) => {
-          console.log(Response);
-          this.userAccount = Response.data.playlist;
+          // console.log(Response);
+          this.userPlaylist = Response.data.playlist;
         })
         .catch((error) => {
           console.log(error);

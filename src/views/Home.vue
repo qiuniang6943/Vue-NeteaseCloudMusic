@@ -9,20 +9,26 @@
         <el-main>
           <router-view />
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer><play-control-com></play-control-com></el-footer>
       </el-container>
     </el-container>
+    <play-queue-com class="playQueue"></play-queue-com>
   </div>
 </template>
 
 <script>
 import asideCom from "../components/asideCom/index.vue";
 import HeaderCom from "../components/HeaderCom/index.vue";
+import PlayQueueCom from "../components/PlayQueueCom";
+import PlayControlCom from "../components/PlayControlCom";
+
 export default {
   name: "Home",
   components: {
     asideCom,
     HeaderCom,
+    PlayQueueCom,
+    PlayControlCom,
   },
 };
 </script>
@@ -30,6 +36,11 @@ export default {
 .container,
 .home {
   height: 100%;
+  .playQueue {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 .el-aside {
   background-color: #f0f0f0;

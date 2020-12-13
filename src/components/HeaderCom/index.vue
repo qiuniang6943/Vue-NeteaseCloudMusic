@@ -75,8 +75,6 @@ export default {
     },
 
     getLoginStatus() {
-      console.log("/login/status");
-
       request({
         method: "get",
         url: `/login/status?cookie=${localStorage.getItem('Cookie')}&timestamp=${Date.now()}`,
@@ -86,9 +84,9 @@ export default {
         // }
       })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           this.userInfo = response.data.profile;
-          console.log("已登陆");
+          // console.log("已登陆");
           // 修改登陆状态
           this.$store.commit("loggedIn");
         })

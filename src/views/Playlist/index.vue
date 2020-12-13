@@ -1,6 +1,12 @@
 <template>
-  <div class="playlistContainer">
-    <div class="list" v-for="(item, index) in playlistDetail" :key="index">
+  <div class="playlistContainer" v-loading="loading">
+    <playlist-header></playlist-header>
+    <div
+      class="list"
+      v-for="(item, index) in playlistDetail"
+      :key="index"
+      @dblclick="addPlaybackQueue(index)"
+    >
       <div class="name">
         {{ item.name }}
       </div>
@@ -18,33 +24,44 @@
 
 <script>
 import request from "../../request/request.js";
-
+import PlaylistHeader from "./components/PlaylistHeader";
 export default {
   name: "Playlist",
   data() {
     return {
       playlistDetail: {},
+      loading: true,
     };
   },
   created() {
     this.getPlaylistDetail();
   },
   methods: {
+    // 添加到播放队列
+    addPlaybackQueue(index) {
+      this.$store.commit("addPlaylist", {
+        playlist: this.playlistDetail,
+        index: index,
+      });
+    },
     // 获取歌单详情
     getPlaylistDetail() {
-      console.log("获取歌单详情");
+      this.loading = true;
       request({
-        method:'post',
-        url: `/playlist/detail?id=${this.$route.params.id}&cookie=${localStorage.getItem('Cookie')}`,
-        data:document.cookie
+        method: "get",
+        url: `/playlist/detail?id=${
+          this.$route.params.id
+        }&cookie=${localStorage.getItem("Cookie")}`,
       })
         .then((Response) => {
-          console.log(Response);
+          // console.log(Response);
           this.playlistDetail = Response.data.playlist.tracks;
-          console.log(this.playlistDetail);
+          // console.log(this.playlistDetail);
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
+          this.loading = false;
         });
     },
   },
@@ -53,6 +70,9 @@ export default {
       // 对路由变化作出响应
       this.getPlaylistDetail();
     },
+  },
+  components: {
+    PlaylistHeader,
   },
 };
 </script>

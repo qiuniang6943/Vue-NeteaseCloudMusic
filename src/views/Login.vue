@@ -48,6 +48,7 @@ export default {
           } else {
             console.log(response.data.cookie)
             localStorage.setItem('Cookie',response.data.cookie)
+            localStorage.setItem('userID',response.data.account.id)
             // document.cookie = `${response.data.cookie}`
             this.$message({
               message: "登陆成功",
