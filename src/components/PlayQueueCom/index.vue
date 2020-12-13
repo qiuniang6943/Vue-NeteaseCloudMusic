@@ -4,6 +4,7 @@
     <div v-for="(item,index) in playlist" :key="index" :class="{'active': index== activeIndex}">
         {{item.name}}
     </div>
+    <i class="el-icon-s-unfold" @click="close"></i>
   </div>
 </template>
 
@@ -14,7 +15,7 @@ export default {
   data() {
     return {
       playlist: {},
-      activeIndex: 1,
+      activeIndex: 1
     };
   },
   methods: {
@@ -22,6 +23,9 @@ export default {
       this.playlist = this.$store.state.playlist;
       this.activeIndex = this.$store.state.currentPlay;
     },
+    close(){
+      this.$emit('close')
+    }
   },
   watch: {
     // 监听播放列表变化，获取播放列表
@@ -37,18 +41,28 @@ export default {
 
 <style lang="scss" scoped>
 .playQueueContainer {
+  transition: all .5s;
   width: 300px;
   height: 100%;
+  overflow: auto;
   background-color: #fff;
   box-shadow: -5px 0px 10px rgba(180, 180, 180, 0.541);
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
   .title {
     font-size: 22px;
   }
   .active{
     background-color: green;
     color: white;
+  }
+  .el-icon-s-unfold{
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 23px;
+    cursor: pointer;
   }
 }
 </style>

@@ -9,10 +9,10 @@
         <el-main>
           <router-view />
         </el-main>
-        <el-footer><play-control-com></play-control-com></el-footer>
+        <el-footer><play-control-com  @open = "open"></play-control-com></el-footer>
       </el-container>
     </el-container>
-    <play-queue-com class="playQueue"></play-queue-com>
+    <play-queue-com class="playQueue" @close = "close" :class="{open : isOpen}"></play-queue-com>
   </div>
 </template>
 
@@ -24,20 +24,38 @@ import PlayControlCom from "../components/PlayControlCom";
 
 export default {
   name: "Home",
+  data(){
+    return {
+      isOpen:false
+    }
+  },
   components: {
     asideCom,
     HeaderCom,
     PlayQueueCom,
     PlayControlCom,
   },
+  methods:{
+    close(){
+      this.isOpen = false
+    },
+    open(){
+      this.isOpen = true
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .container,
 .home {
   height: 100%;
+  overflow: hidden;
   .playQueue {
     position: absolute;
+    top: 0;
+    right: -350px;
+  }
+  .open{
     top: 0;
     right: 0;
   }

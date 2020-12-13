@@ -13,7 +13,9 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
+html{
+  overflow: hidden;
+}
 html,
 body,
 div,
