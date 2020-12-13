@@ -34,7 +34,9 @@ export default {
     getPlaylistDetail() {
       console.log("获取歌单详情");
       request({
-        url: `/playlist/detail?id=${this.$route.params.id}`,
+        method:'post',
+        url: `/playlist/detail?id=${this.$route.params.id}&cookie=${localStorage.getItem('Cookie')}`,
+        data:document.cookie
       })
         .then((Response) => {
           console.log(Response);

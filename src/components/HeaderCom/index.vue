@@ -24,7 +24,6 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 icon="el-icon-close"
-                v-if="isLogin"
                 @click.native="logout"
                 >退出登陆</el-dropdown-item
               >
@@ -61,11 +60,11 @@ export default {
     // setInterval(()=>{
     //   this.getLoginStatus()
     // }, 3000);
-    this.$message({
-      message:
-        "后台有点问题，已登录会返回未登录，如果已经登录但是显示未登录，多刷新几次",
-      type: "warning",
-    });
+    // this.$message({
+    //   message:
+    //     "后台有点问题，已登录会返回未登录，如果已经登录但是显示未登录，多刷新几次",
+    //   type: "warning",
+    // });
   },
   methods: {
     back() {
@@ -80,10 +79,10 @@ export default {
 
       request({
         method: "get",
-        url: `/login/status?cookie=${document.cookie}&timestamp=${Date.now()}`,
+        url: `/login/status?cookie=${localStorage.getItem('Cookie')}&timestamp=${Date.now()}`,
         withCredentials: true,
         // data:{
-        //   cookie : document.cookie
+        //   Cookie : localStorage.getItem('Cookie')
         // }
       })
         .then((response) => {
@@ -117,10 +116,10 @@ export default {
         .then((response) => {
           console.log(response);
           console.log("已退出登陆");
-          this.$message({
-            message: "后台有点问题，返回状态成功但是并没有成功退出",
-            type: "warning",
-          });
+          // this.$message({
+          //   message: "后台有点问题，返回状态成功但是并没有成功退出",
+          //   type: "warning",
+          // });
           // 修改登陆状态
           this.$store.commit("notLoggeIn");
         })
