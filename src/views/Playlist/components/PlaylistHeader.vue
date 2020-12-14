@@ -1,5 +1,5 @@
 <template>
-  <div>111</div>
+  <div>歌单详情头部</div>
 </template>
 
 <script>

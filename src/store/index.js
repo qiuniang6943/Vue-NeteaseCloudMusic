@@ -5,27 +5,35 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin:false,
+    isLogin: false,
     // 播放列表
-    playlist:{},
+    playlist: {},
     // 当前播放歌曲序号
-    currentPlay:1
+    currentPlay: 1
   },
   mutations: {
     // 接收传来的新的播放队列
-    addPlaylist(state,payload){
+    addPlaylist(state, payload) {
       state.playlist = payload.playlist
       state.currentPlay = payload.index
     },
-    loggedIn(state){
+    lastSong(state) {
+      if (state.currentPlay > 1) {
+        state.currentPlay--
+      }
+    },
+    nextSong(state) {
+      if (state.currentPlay < state.playlist.length-1) {
+        state.currentPlay++
+      }
+    },
+    loggedIn(state) {
       state.isLogin = true
     },
-    notLoggeIn(state){
+    notLoggeIn(state) {
       state.isLogin = false
     }
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })
