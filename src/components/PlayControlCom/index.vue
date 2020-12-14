@@ -9,7 +9,7 @@
     </div>
     <div class="middle">
       <audio
-        :src="`https://music.163.com/song/media/outer/url?id=${audioInfo.id}.mp3`"
+        :src="audioUrl"
         controls
         autoplay
         id="myAudio"
@@ -35,11 +35,11 @@
 </template>
 
 <script>
+import request from "../../request/request.js";
 export default {
   name: "PlayControlCom",
   data() {
     return {
-      // audioSrc: "",
       audioInfo: {
         al: {
           picUrl:
@@ -47,23 +47,38 @@ export default {
         },
         name: "网易云音乐",
       },
+      audioUrl:'',
       myAudio: {},
       isPause: true,
     };
   },
   mounted() {
     this.myAudio = document.getElementById("myAudio");
-    myAudio.addEventListener('ended',  () =>{  
-        this.nextSong()
-        this.playMusic()
-    }, false);
+    myAudio.addEventListener(
+      "ended",
+      () => {
+        this.nextSong();
+        setTimeout(() => {
+          this.playMusic();
+        }, 200);
+      },
+      false
+    );
   },
   methods: {
     getAudioSrc() {
       this.audioInfo = this.$store.state.playlist[
         this.$store.state.currentPlay
       ];
-      console.log("getAudioSrc", this.audioInfo);
+      request({
+        url: `/song/url?id=${this.audioInfo.id}`,
+      })
+        .then((Response) => {
+          this.audioUrl = Response.data.data[0].url
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       this.isPause = false;
     },
 
