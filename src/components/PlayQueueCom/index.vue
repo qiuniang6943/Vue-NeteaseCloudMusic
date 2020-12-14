@@ -1,8 +1,23 @@
 <template>
   <div class="playQueueContainer">
     <h1 class="title">播放队列</h1>
-    <div v-for="(item,index) in playlist" :key="index" :class="{'active': index== activeIndex}">
-        {{item.name}}
+    <div class="playQueueListContainer">
+      <div
+        v-for="(item, index) in playlist"
+        :key="index"
+        :class="{ active: index == activeIndex }"
+        class="playQueueList"
+        @dblclick="changeCurrentPlay(index)"
+      >
+        <div class="songName">
+          {{ item.name }}
+        </div>
+        <div class="singer">
+          <span v-for="(i, index) in item.ar" :key="index">
+            {{ i.name }}
+          </span>
+        </div>
+      </div>
     </div>
     <i class="el-icon-s-unfold" @click="close"></i>
   </div>
@@ -15,7 +30,7 @@ export default {
   data() {
     return {
       playlist: {},
-      activeIndex: 1
+      activeIndex: 1,
     };
   },
   methods: {
@@ -23,16 +38,19 @@ export default {
       this.playlist = this.$store.state.playlist;
       this.activeIndex = this.$store.state.currentPlay;
     },
-    close(){
-      this.$emit('close')
+    close() {
+      this.$emit("close");
+    },
+    changeCurrentPlay(index){
+      this.$store.commit('changeCurrentPlay',index)
     }
   },
   watch: {
     // 监听播放列表变化，获取播放列表
-    '$store.state.playlist'() {
+    "$store.state.playlist"() {
       this.getPlaylist();
     },
-    '$store.state.currentPlay'() {
+    "$store.state.currentPlay"() {
       this.getPlaylist();
     },
   },
@@ -41,7 +59,7 @@ export default {
 
 <style lang="scss" scoped>
 .playQueueContainer {
-  transition: all .5s;
+  transition: all 0.5s;
   width: 300px;
   height: 100%;
   overflow: auto;
@@ -52,12 +70,37 @@ export default {
   position: relative;
   .title {
     font-size: 22px;
+    margin-left: 15px;
+    font-weight: 700;
   }
-  .active{
-    background-color: green;
-    color: white;
+  .playQueueListContainer {
+    margin-top: 10px;
+    .playQueueList {
+      // display: flex;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 12px 15px;
+      box-sizing: border-box;
+      transition: all .1s;
+      &:hover{
+        background-color: #e4e4e4;
+      }
+      .songName {
+        font-size: 16px;
+        // font-weight: 600;
+      }
+      .singer {
+        font-size: 13px;
+        margin-top: 10px;
+      }
+    }
   }
-  .el-icon-s-unfold{
+
+  .active {
+    background-color: #e4e4e4;
+    // color: white;
+  }
+  .el-icon-s-unfold {
     position: absolute;
     top: 18px;
     right: 20px;

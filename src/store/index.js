@@ -17,6 +17,10 @@ export default new Vuex.Store({
       state.playlist = payload.playlist
       state.currentPlay = payload.index
     },
+    // 修改当前播放序号
+    changeCurrentPlay(state,payload){
+      state.currentPlay = payload
+    },
     lastSong(state) {
       if (state.currentPlay > 0) {
         state.currentPlay--
