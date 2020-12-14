@@ -13,7 +13,7 @@
         controls
         autoplay
         id="myAudio"
-        v-show="false"
+        v-show="true"
       ></audio>
       <i class="iconfont icon-1_music83 lastSongIcon" @click="lastSong"></i>
       <i
@@ -53,6 +53,10 @@ export default {
   },
   mounted() {
     this.myAudio = document.getElementById("myAudio");
+    myAudio.addEventListener('ended',  () =>{  
+        this.nextSong()
+        this.playMusic()
+    }, false);
   },
   methods: {
     getAudioSrc() {
@@ -79,7 +83,7 @@ export default {
       setTimeout(() => {
         if (tempID == this.audioInfo.id) {
           this.$message({
-            message: "已经是最后一首了哦",
+            message: "已经是第一首了哦",
             type: "warning",
           });
         }

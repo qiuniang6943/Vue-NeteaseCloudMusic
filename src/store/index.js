@@ -18,7 +18,7 @@ export default new Vuex.Store({
       state.currentPlay = payload.index
     },
     lastSong(state) {
-      if (state.currentPlay > 1) {
+      if (state.currentPlay > 0) {
         state.currentPlay--
       }
     },
