@@ -142,6 +142,11 @@ export default {
   align-items: center;
   i {
     color: #7b7b7b;
+    cursor: pointer;
+    transition: all .2s;
+    &:hover{
+      transform: scale(1.4,1.4);
+    }
   }
   .leftBox {
     display: flex;

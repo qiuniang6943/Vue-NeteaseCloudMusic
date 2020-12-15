@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="VideoContainer">
     <title-com class="title">最新MV</title-com>
     <div class="videoComBox">
       <video-com
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.VideoContainer {
   margin: 0 auto;
   max-width: 1600px;
   .title {

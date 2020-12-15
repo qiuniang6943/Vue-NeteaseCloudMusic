@@ -50,7 +50,7 @@ export default {
     // 获取用户歌单列表
     getUserPlaylist() {
       request({
-        url: `/user/playlist?uid=${localStorage.getItem('userID')}`,
+        url: `/user/playlist?uid=${localStorage.getItem('userID')}&limit=100`,
       })
         .then((Response) => {
           // console.log(Response);
