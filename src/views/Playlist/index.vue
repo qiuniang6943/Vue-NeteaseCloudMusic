@@ -19,6 +19,7 @@
       @dblclick="addPlaybackQueue(index)"
     >
       <div class="name">
+        <img :src="item.al.picUrl+'?param=35y35'" alt="">
         {{ item.name }}
       </div>
       <div class="arName">
@@ -94,9 +95,17 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding:2px 10px;
     border-radius: 5px;
     transition: all 0.1s;
+    .name{
+      display: flex;
+      align-items: center;
+      img{
+        border-radius: 5px;
+        margin-right: 8px;
+      }
+    }
     &:hover {
       background-color: rgb(219, 219, 219);
     }

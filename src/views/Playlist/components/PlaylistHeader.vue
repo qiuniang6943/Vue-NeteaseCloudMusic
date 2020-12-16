@@ -44,13 +44,13 @@ export default {
     },
     // 歌单创建时间
     createTime: {
-      type: String,
-      default: "1581969841368",
+      type: Number,
+      default: 1581969841368,
     },
     // 歌单更新时间
     updateTime: {
-      type: String,
-      default: "1581969841368",
+      type: Number,
+      default: 1581969841368,
     },
     // 歌单描述
     description: {
