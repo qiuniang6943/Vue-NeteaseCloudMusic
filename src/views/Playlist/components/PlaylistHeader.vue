@@ -3,25 +3,31 @@
     <img :src="coverImgUrl + '?param=200y200'" alt="" class="coverImg" />
     <div class="rightContainer">
       <p class="name">{{ name }}</p>
-      <div>
+      <div class="rightContainerDiv1">
         <img :src="avatarUrl + '?param=50y50'" alt="" class="avatarImg" />
-        <span>{{ nickname }}</span>
-        <span class="createTime">{{ createTime }}创建</span>
+        <span class="nickname">{{ nickname }}</span>
+        <span class="createTime">{{ createTime | formatDate }}创建</span>
       </div>
-      <div><button>已收藏({{subscribedCount}})</button></div>
-      <div>
-        <p v-if="tags.length>1">
-          标签:<span
-            v-for="(item, index) in tags"
-            :key="index"
-            >{{ item }}</span
-          >
+      <div class="rightContainerDiv2">
+        <!-- <button>已收藏({{ subscribedCount }})</button> -->
+        <el-button round>已收藏({{ subscribedCount }})</el-button>
+      </div>
+      <div class="rightContainerDiv3">
+        <p v-if="tags.length > 1">
+          标签:<span v-for="(item, index) in tags" :key="index">{{
+            item
+          }}</span>
         </p>
       </div>
-      <div>
-        <p>歌曲:<span>{{songCount}}</span>播放:{{playCount}}</p>
+      <div class="rightContainerDiv4">
+        <p>
+          歌曲:<span class="songCount num">{{ songCount }}</span
+          >播放:<span class="num">{{ playCount }}</span>
+        </p>
       </div>
-      <div>简介:{{description}}</div>
+      <div class="rightContainerDiv5">
+        <p v-if="description == ''">简介:{{ description }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -98,21 +104,76 @@ export default {
       default: 12345,
     },
   },
+  filters: {
+    formatDate(value) {
+      var time = new Date(parseInt(value)).toLocaleString();
+      // var reg = new RegExp("(/)", "g");
+      // var reg_time = new RegExp("(上午|下午)", "g");
+      return time.substring(0, 9);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .playlistHeaderContainer {
   display: flex;
+  margin-bottom: 10px;
   .rightContainer {
     padding-left: 10px;
     padding-top: 5px;
-    .avatarImg {
-      width: 35px;
-      border-radius: 2px;
+    font-size: 14px;
+    color: #5a5a5a;
+    margin-left: 10px;
+    .rightContainerDiv1 {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-left: 2px;
+      margin-top: 5px;
+      .avatarImg {
+        width: 35px;
+        border-radius: 50%;
+        margin-right: 7px;
+      }
+      .nickname {
+        margin-right: 10px;
+      }
+      .createTime {
+        font-size: 12px;
+      }
+    }
+    .rightContainerDiv2 {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      .el-button {
+        padding: 8px 10px;
+      }
+    }
+    .rightContainerDiv3 {
+      margin-top: 10px;
+    }
+    .rightContainerDiv4 {
+      margin-top: 10px;
+      .num {
+        font-size: 13px;
+      }
+      .songCount {
+        margin-right: 8px;
+      }
+    }
+    .rightContainerDiv5 {
+      margin-top: 10px;
+      p {
+        display: inline-block;
+        max-height: 36px;
+        line-height: 20px;
+        overflow: hidden;
+      }
     }
     .name {
-      font-size: 25px;
+      font-size: 22px;
+      color: #000000;
     }
   }
   .coverImg {

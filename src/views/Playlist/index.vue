@@ -10,6 +10,7 @@
       :playCount="playlistDetail.playCount"
       :description="playlistDetail.description"
       :subscribedCount="playlistDetail.subscribedCount"
+      :createTime="playlistDetail.createTime"
     ></playlist-header>
     <div
       class="list"
