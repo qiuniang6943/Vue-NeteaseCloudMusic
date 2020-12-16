@@ -1,9 +1,19 @@
 <template>
   <div class="playlistContainer" v-loading="loading">
-    <playlist-header></playlist-header>
+    <playlist-header
+      :coverImgUrl="playlistDetail.coverImgUrl"
+      :avatarUrl="playlistDetail.creator.avatarUrl"
+      :name="playlistDetail.name"
+      :nickname="playlistDetail.creator.nickname"
+      :tags="playlistDetail.tags"
+      :songCount="playlistDetail.tracks.length"
+      :playCount="playlistDetail.playCount"
+      :description="playlistDetail.description"
+      :subscribedCount="playlistDetail.subscribedCount"
+    ></playlist-header>
     <div
       class="list"
-      v-for="(item, index) in playlistDetail"
+      v-for="(item, index) in playlistDetail.tracks"
       :key="index"
       @dblclick="addPlaybackQueue(index)"
     >
@@ -40,7 +50,7 @@ export default {
     // 添加到播放队列
     addPlaybackQueue(index) {
       this.$store.commit("addPlaylist", {
-        playlist: this.playlistDetail,
+        playlist: this.playlistDetail.tracks,
         index: index,
       });
     },
@@ -54,9 +64,9 @@ export default {
         }&cookie=${localStorage.getItem("Cookie")}`,
       })
         .then((Response) => {
-          // console.log(Response);
-          this.playlistDetail = Response.data.playlist.tracks;
-          // console.log(this.playlistDetail);
+          console.log(Response);
+          this.playlistDetail = Response.data.playlist;
+          console.log(this.playlistDetail.tracks);
           this.loading = false;
         })
         .catch((error) => {
