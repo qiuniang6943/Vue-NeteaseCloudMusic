@@ -68,6 +68,7 @@ export default {
   padding: 20px;
   box-sizing: border-box;
   position: relative;
+  z-index: 10;
   .title {
     font-size: 22px;
     margin-left: 15px;
