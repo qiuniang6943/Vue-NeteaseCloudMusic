@@ -35,9 +35,14 @@
         </div></el-tab-pane
       >
       <el-tab-pane :label="`评论(${comment.total})`" name="second"
-        ><playlist-comment :comment="comment" @changePage="changePage"></playlist-comment
+        ><playlist-comment
+          :comment="comment"
+          @changePage="changePage"
+        ></playlist-comment
       ></el-tab-pane>
-      <!-- <el-tab-pane label="收藏者" name="third">收藏者</el-tab-pane> -->
+      <el-tab-pane label="相关推荐" name="third">
+        <related-playlist :playlist="relatedPlaylist"></related-playlist>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -46,6 +51,7 @@
 import request from "../../request/request.js";
 import PlaylistHeader from "./components/PlaylistHeader";
 import PlaylistComment from "./components/PlaylistComment";
+import RelatedPlaylist from "./components/RelatedPlaylist";
 
 export default {
   name: "Playlist",
@@ -56,12 +62,28 @@ export default {
       activeName: "first",
       comment: {},
       commentPage: 1,
+      relatedPlaylist: {},
     };
   },
   created() {
     this.getPlaylistDetail();
+    this.getPlaylistComment();
+    this.getRelatedPlaylist();
   },
   methods: {
+    // 获取相关歌单推荐
+    getRelatedPlaylist() {
+      request({
+        url: `/related/playlist?id=${this.$route.params.id}`,
+      })
+        .then((res) => {
+          console.log(res);
+          this.relatedPlaylist = res.data.playlists;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     // 添加到播放队列
     addPlaybackQueue(index) {
       this.$store.commit("addPlaylist", {
@@ -94,10 +116,12 @@ export default {
       console.log("comment");
       request({
         // url: `/comment/playlist?id=${this.$route.params.id}&offset=${this.commentPage}`,
-        url: `/comment/playlist?id=${this.$route.params.id}&cookie=${localStorage.getItem("Cookie")}`,
+        url: `/comment/playlist?id=${
+          this.$route.params.id
+        }&cookie=${localStorage.getItem("Cookie")}`,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.comment = res.data;
         })
         .catch((err) => {
@@ -105,8 +129,8 @@ export default {
         });
     },
     // 评论翻页
-    changePage(){
-      console.log('changePage')
+    changePage() {
+      console.log("changePage");
     },
     handleClick(tab, event) {
       // console.log(tab, event);
@@ -117,12 +141,15 @@ export default {
       // 对路由变化作出响应
       this.getPlaylistDetail();
       this.getPlaylistComment();
-      this.commentPage = 1
+      this.getRelatedPlaylist();
+      this.activeName = "first";
+      this.commentPage = 1;
     },
   },
   components: {
     PlaylistHeader,
     PlaylistComment,
+    RelatedPlaylist,
   },
 };
 </script>

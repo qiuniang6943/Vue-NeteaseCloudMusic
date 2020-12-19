@@ -1,11 +1,11 @@
 <template>
   <div class="playControl">
+    <!-- <progress value="22" max="100"></progress>  -->
     <div class="left">
       <img :src="audioInfo.al.picUrl + '?param=50y50'" alt="" />
       <div class="left-right">
         <span>{{ audioInfo.name }}</span>
       </div>
-      <!-- <span v-if="!audioInfo.alname">网易云音乐</span> -->
     </div>
     <div class="middle">
       <audio
@@ -13,7 +13,7 @@
         controls
         autoplay
         id="myAudio"
-        v-show="true"
+        v-show="false"
       ></audio>
       <i class="iconfont icon-1_music83 lastSongIcon" @click="lastSong"></i>
       <i
@@ -167,6 +167,13 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+  position: relative;
+  progress{
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    width: calc(100% + 30px);
+  }
   div {
     width: 33%;
   }
