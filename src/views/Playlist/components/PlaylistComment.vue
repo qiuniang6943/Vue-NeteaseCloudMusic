@@ -31,7 +31,7 @@
             </div>
             <div
               class="likedCount"
-              @click="likeClick(item.commentId,item.liked)"
+              @click="likeClick(item.commentId, item.liked)"
               :class="{ like: item.liked }"
             >
               <i class="el-icon-thumb">{{ item.likedCount }}</i>
@@ -72,7 +72,7 @@
             </div>
             <div
               class="likedCount"
-              @click="likeClick(item.commentId,item.liked)"
+              @click="likeClick(item.commentId, item.liked)"
               :class="{ like: item.liked }"
             >
               <i class="el-icon-thumb">{{ item.likedCount }}</i>
@@ -98,18 +98,20 @@ export default {
     console.log(this.comment);
   },
   methods: {
-    likeClick(cid,liked) {
+    likeClick(cid, liked) {
       console.log(cid);
       request({
-        url: `/comment/like?id=${
-          this.$route.params.id
-        }&cid=${cid}&t=${liked?0:1}&type=2&cookie=${localStorage.getItem("Cookie")}`,
+        url: `/comment/like?id=${this.$route.params.id}&cid=${cid}&t=${
+          liked ? 0 : 1
+        }&type=2&cookie=${localStorage.getItem("Cookie")}`,
       })
         .then((res) => {
           console.log(res);
-          console.log(liked)
+          console.log(liked);
           this.$message({
-            message: `${liked?"取消点赞成功":"点赞成功"}，服务器对数据有缓存，两分钟后刷新页面即可看到效果`,
+            message: `${
+              liked ? "取消点赞成功" : "点赞成功"
+            }，服务器对数据有缓存，两分钟后刷新页面即可看到效果`,
             type: "success",
           });
         })

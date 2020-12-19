@@ -29,6 +29,7 @@
       <i class="iconfont icon-1_music82 nextSongIcon" @click="nextSong"></i>
     </div>
     <div class="right">
+      <div class="playTime">{{ playTime }} / {{ endTime }}</div>
       <i class="el-icon-s-fold" @click="$emit('open')"></i>
     </div>
   </div>
@@ -47,9 +48,11 @@ export default {
         },
         name: "网易云音乐",
       },
-      audioUrl:'',
+      audioUrl: "",
       myAudio: {},
       isPause: true,
+      playTime: "0:00",
+      endTime: "0:00",
     };
   },
   mounted() {
@@ -64,6 +67,36 @@ export default {
       },
       false
     );
+    myAudio.addEventListener(
+      "timeupdate",
+      () => {
+        // 音频时长
+        let durationTime = Math.ceil(this.myAudio.duration);
+        // 当前音频播放时间
+        let time = Math.ceil(this.myAudio.currentTime);
+        // 时间格式化
+        if (time < 60) {
+          this.playTime = `00:${time < 10 ? "0" + time : time}`;
+        } else {
+          this.playTime = `0${Math.floor(time / 60)}:${
+            time % 60 < 10 ? "0" + (time % 60) : time % 60
+          }`;
+        }
+
+        if (durationTime < 60) {
+          this.endTime = `00:${
+            durationTime < 10 ? "0" + durationTime : durationTime
+          }`;
+        } else {
+          this.endTime = `0${Math.floor(durationTime / 60)}:${
+            durationTime % 60 < 10
+              ? "0" + (durationTime % 60)
+              : durationTime % 60
+          }`;
+        }
+      },
+      false
+    );
   },
   methods: {
     getAudioSrc() {
@@ -74,7 +107,7 @@ export default {
         url: `/song/url?id=${this.audioInfo.id}`,
       })
         .then((Response) => {
-          this.audioUrl = Response.data.data[0].url
+          this.audioUrl = Response.data.data[0].url;
         })
         .catch((error) => {
           console.error(error);
@@ -163,6 +196,7 @@ export default {
   .right {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     .el-icon-s-fold {
       font-size: 28px;
       cursor: pointer;
