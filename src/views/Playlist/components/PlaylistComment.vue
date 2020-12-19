@@ -29,8 +29,12 @@
             <div class="time">
               <span>{{ item.time | formatDate }}</span>
             </div>
-            <div class="">
-              <i>{{ item.likedCount }}</i>
+            <div
+              class="likedCount"
+              @click="likeClick(item.commentId,item.liked)"
+              :class="{ like: item.liked }"
+            >
+              <i class="el-icon-thumb">{{ item.likedCount }}</i>
             </div>
           </div>
         </div>
@@ -66,8 +70,12 @@
             <div class="time">
               <span>{{ item.time | formatDate }}</span>
             </div>
-            <div class="">
-              <i>{{ item.likedCount }}</i>
+            <div
+              class="likedCount"
+              @click="likeClick(item.commentId,item.liked)"
+              :class="{ like: item.liked }"
+            >
+              <i class="el-icon-thumb">{{ item.likedCount }}</i>
             </div>
           </div>
         </div>
@@ -89,7 +97,27 @@ export default {
   created() {
     console.log(this.comment);
   },
-  methods: {},
+  methods: {
+    likeClick(cid,liked) {
+      console.log(cid);
+      request({
+        url: `/comment/like?id=${
+          this.$route.params.id
+        }&cid=${cid}&t=${liked?0:1}&type=2&cookie=${localStorage.getItem("Cookie")}`,
+      })
+        .then((res) => {
+          console.log(res);
+          console.log(liked)
+          this.$message({
+            message: `${liked?"取消点赞成功":"点赞成功"}，服务器对数据有缓存，两分钟后刷新页面即可看到效果`,
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+  },
   filters: {
     formatDate(value) {
       var time = new Date(parseInt(value)).toLocaleString();
@@ -119,6 +147,9 @@ export default {
     padding-top: 3px;
     margin-top: 5px;
     border-bottom: 1px solid #e9e9e9;
+    .likedCount {
+      cursor: pointer;
+    }
     .infoText {
       width: 100%;
     }
@@ -129,6 +160,9 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .like {
+        color: red;
+      }
     }
     .imgContainer {
       // margin-right: 10px;

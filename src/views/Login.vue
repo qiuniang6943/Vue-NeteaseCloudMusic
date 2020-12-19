@@ -30,9 +30,9 @@ export default {
   data() {
     return {
       form: {
-        phone: "",
+        phone: "13006025050",
         code: "",
-        pwd: "",
+        pwd: "wyl995520",
       },
     };
   },

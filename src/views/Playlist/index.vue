@@ -37,7 +37,7 @@
       <el-tab-pane :label="`评论(${comment.total})`" name="second"
         ><playlist-comment :comment="comment" @changePage="changePage"></playlist-comment
       ></el-tab-pane>
-      <el-tab-pane label="收藏者" name="third">收藏者</el-tab-pane>
+      <!-- <el-tab-pane label="收藏者" name="third">收藏者</el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
@@ -94,7 +94,7 @@ export default {
       console.log("comment");
       request({
         // url: `/comment/playlist?id=${this.$route.params.id}&offset=${this.commentPage}`,
-        url: `/comment/playlist?id=${this.$route.params.id}`,
+        url: `/comment/playlist?id=${this.$route.params.id}&cookie=${localStorage.getItem("Cookie")}`,
       })
         .then((res) => {
           console.log(res);

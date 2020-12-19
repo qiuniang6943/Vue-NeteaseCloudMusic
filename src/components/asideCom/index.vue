@@ -16,10 +16,10 @@
             <i class="el-icon-menu"></i>
             <span slot="title">视频</span>
           </el-menu-item>
-          <el-menu-item index="/Ilike">
+          <!-- <el-menu-item index="/Ilike">
             <i class="el-icon-document"></i>
             <span slot="title">我喜欢</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <el-menu-item
             :index="`/Playlist/${item.id}`"
             v-for="(item, index) in userPlaylist"
