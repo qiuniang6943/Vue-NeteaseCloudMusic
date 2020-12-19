@@ -44,13 +44,15 @@ export default {
     };
   },
   created() {
-    this.getUserPlaylist()
+    this.getUserPlaylist();
   },
   methods: {
     // 获取用户歌单列表
     getUserPlaylist() {
       request({
-        url: `/user/playlist?uid=${localStorage.getItem('userID')}&limit=100`,
+        url: `/user/playlist?uid=${localStorage.getItem(
+          "userID"
+        )}&limit=100&timestamp=${new Date().getTime()}`,
       })
         .then((Response) => {
           // console.log(Response);

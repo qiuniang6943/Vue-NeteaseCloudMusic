@@ -11,6 +11,7 @@
       :description="playlistDetail.description"
       :subscribedCount="playlistDetail.subscribedCount"
       :createTime="playlistDetail.createTime"
+      :subscribed="playlistDetail.subscribed"
     ></playlist-header>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="歌曲列表" name="first"
@@ -77,7 +78,7 @@ export default {
         url: `/related/playlist?id=${this.$route.params.id}`,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.relatedPlaylist = res.data.playlists;
         })
         .catch((err) => {
@@ -98,10 +99,12 @@ export default {
         method: "get",
         url: `/playlist/detail?id=${
           this.$route.params.id
-        }&cookie=${localStorage.getItem("Cookie")}`,
+        }&cookie=${localStorage.getItem(
+          "Cookie"
+        )}&&timestamp=${new Date().getTime()}`,
       })
         .then((Response) => {
-          // console.log(Response);
+          console.log(Response);
           this.playlistDetail = Response.data.playlist;
           // console.log(this.playlistDetail.tracks);
           this.loading = false;

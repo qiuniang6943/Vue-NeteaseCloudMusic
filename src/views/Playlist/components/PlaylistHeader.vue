@@ -10,7 +10,11 @@
       </div>
       <div class="rightContainerDiv2">
         <!-- <button>已收藏({{ subscribedCount }})</button> -->
-        <el-button round>已收藏({{ subscribedCount }})</el-button>
+        <el-button round @click="commitSubscribed()"
+          >{{ subscribed == true ? "已收藏" : "收藏" }}({{
+            subscribedCount
+          }})</el-button
+        >
       </div>
       <div class="rightContainerDiv3">
         <p v-if="tags.length > 1">
@@ -26,16 +30,22 @@
         </p>
       </div>
       <div class="rightContainerDiv5">
-        <p v-if="description == ''">简介:{{ description }}</p>
+        <p>简介:{{ description }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import request from "../../../request/request";
 export default {
   name: "PlaylistHeader",
   props: {
+    // 是否已收藏
+    subscribed: {
+      type: Boolean,
+      default: false,
+    },
     // 歌单封面图
     coverImgUrl: {
       type: String,
@@ -104,11 +114,48 @@ export default {
       default: 12345,
     },
   },
+  methods: {
+    commitSubscribed() {
+      if (this.subscribed) {
+        this.$confirm("确定将取消收藏歌单, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            this.requestSubscribed();
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消操作",
+            });
+          });
+      } else {
+        this.requestSubscribed();
+      }
+    },
+    requestSubscribed() {
+      request({
+        url: `/playlist/subscribe?t=${this.subscribed ? "2" : "1"}&id=${
+          this.$route.params.id
+        }&cookie=${localStorage.getItem("Cookie")}`,
+      })
+        .then((res) => {
+          console.log(res);
+          this.$message({
+            type: "success",
+            message: `${this.subscribed == true ? "取消收藏成功，刷新页面查看效果" : "收藏成功，刷新页面查看效果"}`,
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+  },
   filters: {
     formatDate(value) {
       var time = new Date(parseInt(value)).toLocaleString();
-      // var reg = new RegExp("(/)", "g");
-      // var reg_time = new RegExp("(上午|下午)", "g");
       return time.substring(0, 9);
     },
   },
