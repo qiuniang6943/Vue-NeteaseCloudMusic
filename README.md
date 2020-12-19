@@ -24,3 +24,6 @@ https://github.com/Binaryify/NeteaseCloudMusicApi
 ## baseURL修改目录
 src/request/request.js
 
+### Gitee Pages
+http://wang-yinglong.gitee.io/netease-cloud-music
+
