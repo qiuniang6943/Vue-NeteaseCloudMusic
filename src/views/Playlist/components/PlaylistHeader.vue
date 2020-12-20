@@ -176,6 +176,10 @@ export default {
 .playlistHeaderContainer {
   display: flex;
   margin-bottom: 10px;
+  .coverImg{
+    width: 200px;
+    height: 200px;
+  }
   .rightContainer {
     padding-left: 10px;
     padding-top: 5px;
@@ -221,6 +225,9 @@ export default {
     }
     .rightContainerDiv5 {
       margin-top: 10px;
+      // max-width: 65vw;
+      max-width: 700px;
+      // min-width: 600px;
       p {
         display: inline-block;
         max-height: 36px;

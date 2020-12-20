@@ -1,18 +1,26 @@
 <template>
   <div class="home">
     <el-container class="container">
-      <el-aside width="280px">
-        <aside-com></aside-com>
-      </el-aside>
+      <div class="asideContainer">
+        <el-aside width="290px">
+          <aside-com></aside-com>
+        </el-aside>
+      </div>
       <el-container>
         <el-header><header-com></header-com></el-header>
         <el-main>
           <router-view />
         </el-main>
-        <el-footer><play-control-com  @open = "open"></play-control-com></el-footer>
+        <el-footer
+          ><play-control-com @open="open"></play-control-com
+        ></el-footer>
       </el-container>
     </el-container>
-    <play-queue-com class="playQueue" @close = "close" :class="{open : isOpen}"></play-queue-com>
+    <play-queue-com
+      class="playQueue"
+      @close="close"
+      :class="{ open: isOpen }"
+    ></play-queue-com>
   </div>
 </template>
 
@@ -24,10 +32,10 @@ import PlayControlCom from "../components/PlayControlCom";
 
 export default {
   name: "Home",
-  data(){
+  data() {
     return {
-      isOpen:false
-    }
+      isOpen: false,
+    };
   },
   components: {
     asideCom,
@@ -35,14 +43,14 @@ export default {
     PlayQueueCom,
     PlayControlCom,
   },
-  methods:{
-    close(){
-      this.isOpen = false
+  methods: {
+    close() {
+      this.isOpen = false;
     },
-    open(){
-      this.isOpen = true
-    }
-  }
+    open() {
+      this.isOpen = true;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -55,10 +63,14 @@ export default {
     top: 0;
     right: -350px;
   }
-  .open{
+  .open {
     top: 0;
     right: 0;
   }
+}
+.asideContainer {
+  width: calc(290px - 26px);
+  overflow: hidden;
 }
 .el-aside {
   background-color: #f0f0f0;

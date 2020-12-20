@@ -70,5 +70,8 @@ export default {
 .asideBox {
   overflow: hidden;
   width: 264px;
+  .el-menu-item{
+    // overflow: hidden;
+  }
 }
 </style>

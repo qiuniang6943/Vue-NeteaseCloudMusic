@@ -38,6 +38,7 @@
     </div>
     <div class="right">
       <div class="playTime">{{ playTime }} / {{ endTime }}</div>
+      <i class="el-icon-arrow-up" @click="isLrcClose = false"></i>
       <i class="el-icon-s-fold" @click="$emit('open')"></i>
     </div>
   </div>
@@ -234,7 +235,7 @@ export default {
   position: relative;
   .lrc {
     position: absolute;
-    top: calc(-100vh + 60px);
+    top: calc(-100vh + 59px);
     left: -300px;
     width: 100vw;
     background-color: pink;
@@ -245,8 +246,8 @@ export default {
     .el-icon-arrow-down {
       position: absolute;
       top: 20px;
-      left: 20px;
-      font-size: 25px;
+      right: 20px;
+      font-size: 32px;
       cursor: pointer;
       color: rgba(255, 255, 255, 0.9);
     }
@@ -303,9 +304,18 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    .playTime{
+      text-align: right;
+    }
     .el-icon-s-fold {
       font-size: 28px;
       cursor: pointer;
+    }
+    .el-icon-arrow-up {
+      font-size: 32px;
+      cursor: pointer;
+      margin-left: 30px;
+      margin-right: 20px;
     }
   }
 }

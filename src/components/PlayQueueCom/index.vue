@@ -1,21 +1,24 @@
 <template>
   <div class="playQueueContainer">
     <h1 class="title">播放队列</h1>
-    <div class="playQueueListContainer">
-      <div
-        v-for="(item, index) in playlist"
-        :key="index"
-        :class="{ active: index == activeIndex }"
-        class="playQueueList"
-        @dblclick="changeCurrentPlay(index)"
-      >
-        <div class="songName">
-          {{ item.name }}
-        </div>
-        <div class="singer">
-          <span v-for="(i, index) in item.ar" :key="index">
-            {{ i.name }}
-          </span>
+    <!-- 外层盒子用来隐藏滚动条 -->
+    <div class="playQueueList-outer-container">
+      <div class="playQueueListContainer">
+        <div
+          v-for="(item, index) in playlist"
+          :key="index"
+          :class="{ active: index == activeIndex }"
+          class="playQueueList"
+          @dblclick="changeCurrentPlay(index)"
+        >
+          <div class="songName">
+            {{ item.name }}
+          </div>
+          <div class="singer">
+            <span v-for="(i, index) in item.ar" :key="index">
+              {{ i.name }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -41,9 +44,9 @@ export default {
     close() {
       this.$emit("close");
     },
-    changeCurrentPlay(index){
-      this.$store.commit('changeCurrentPlay',index)
-    }
+    changeCurrentPlay(index) {
+      this.$store.commit("changeCurrentPlay", index);
+    },
   },
   watch: {
     // 监听播放列表变化，获取播放列表
@@ -61,8 +64,8 @@ export default {
 .playQueueContainer {
   transition: all 0.5s;
   width: 300px;
-  height: 100%;
-  overflow: auto;
+  height: 100vh;
+  overflow: hidden;
   background-color: #fff;
   box-shadow: -5px 0px 10px rgba(180, 180, 180, 0.541);
   padding: 20px;
@@ -74,16 +77,24 @@ export default {
     margin-left: 15px;
     font-weight: 700;
   }
+  .playQueueList-outer-container {
+    width: calc(280px - 17px);
+    height: calc(100vh - 80px);
+    overflow: hidden;
+  }
   .playQueueListContainer {
     margin-top: 10px;
+    height: calc(100vh - 80px);
+    overflow: auto;
+    width: 280px;
     .playQueueList {
       // display: flex;
       cursor: pointer;
       border-radius: 5px;
       padding: 12px 15px;
       box-sizing: border-box;
-      transition: all .1s;
-      &:hover{
+      transition: all 0.1s;
+      &:hover {
         background-color: #e4e4e4;
       }
       .songName {
