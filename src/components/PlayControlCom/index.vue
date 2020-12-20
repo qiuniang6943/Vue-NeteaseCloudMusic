@@ -1,9 +1,39 @@
 <template>
   <div class="playControl">
     <!-- <progress value="22" max="100"></progress>  -->
-    <div class="lrc" :class="{ lrcClose: isLrcClose }">
-      <img :src="audioInfo.al.picUrl" alt="" class="bgImg" />
+    <div class="lrcBox" :class="{ lrcClose: isLrcClose }">
+      <img :src="audioInfo.al.picUrl + '?param=500y400'" alt="" class="bgImg" />
       <i class="el-icon-arrow-down" @click="isLrcClose = true"></i>
+      <div class="lrc">
+        <div class="" v-for="(item, index) in lrc" :key="index">
+          <!-- <p
+            v-if="
+              currentTime > lrcTime[index - 4] &&
+              currentTime < lrcTime[index + 3]
+            "
+            :class="{
+              lrcActive:
+                currentTime > lrcTime[index] &&
+                currentTime < lrcTime[index + 1],
+            }"
+          >
+            {{ item[1] }}
+          </p> -->
+          <p
+            v-if="
+              currentTime > lrcTime[index - 3] &&
+              currentTime < lrcTime[index + 1]
+            "
+            :class="{
+              lrcActive:
+                currentTime > lrcTime[index] &&
+                currentTime < lrcTime[index + 1],
+            }"
+          >
+            {{ item[1] }}
+          </p>
+        </div>
+      </div>
     </div>
     <div class="left">
       <img
@@ -22,6 +52,7 @@
         autoplay
         id="myAudio"
         v-show="false"
+        ref="myAudio"
       ></audio>
       <i class="iconfont icon-1_music83 lastSongIcon" @click="lastSong"></i>
       <i
@@ -64,6 +95,8 @@ export default {
       playTime: "0:00",
       endTime: "0:00",
       lrc: {},
+      lrcTime: [],
+      currentTime: 0,
     };
   },
   mounted() {
@@ -87,6 +120,7 @@ export default {
         let durationTime = Math.ceil(this.myAudio.duration);
         // 当前音频播放时间
         let time = Math.ceil(this.myAudio.currentTime);
+        this.currentTime = this.myAudio.currentTime;
         // 时间格式化
         if (time < 60) {
           this.playTime = `00:${time < 10 ? "0" + time : time}`;
@@ -119,16 +153,16 @@ export default {
       //新建一个数组存放最后结果
       let lrc = new Array();
       var _l = lyric.length;
-      for (let i = 0; i < _l; i++) {
+      for (var i = 0; i < _l; i++) {
         //正则匹配播放时间返回一个数组
-        var sj = lyric[i].match(/\[\d{2}:\d{2}((\.|\:)\d{2})\]/g);
+        var sj = lyric[i].match(/\[\d{2}:\d{2}((\.|\:)\d{2,3})\]/g);
         //获得该行歌词正文
-        var _lrc = lyric[i].replace(/\[\d{2}:\d{2}((\.|\:)\d{2})\]/g, "");
+        var _lrc = lyric[i].replace(/\[\d{2}:\d{2}((\.|\:)\d{2,3})\]/g, "");
         //过滤掉空行等非歌词正文部分
         if (sj != null) {
           //可能有多个时间标签对应一句歌词的情况，用一个循环解决
           var _ll = sj.length;
-          for (let j = 0; j < _ll; j++) {
+          for (var j = 0; j < _ll; j++) {
             var _s = sj[j];
             var min = Number(String(_s.match(/\[\d{2}/i)).slice(1));
             var sec = parseFloat(String(_s.match(/\d{2}\.\d{2}/i)));
@@ -154,7 +188,11 @@ export default {
           // console.log(res)
           // 直接调取解析歌词
           this.lrc = this.parseLyric(res.data.lrc.lyric);
-          console.log(this.lrc);
+          this.lrcTime = [];
+          for (var item of this.lrc) {
+            console.log(item);
+            this.lrcTime.push(item[0]);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -233,7 +271,7 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
-  .lrc {
+  .lrcBox {
     position: absolute;
     top: calc(-100vh + 59px);
     left: -310px;
@@ -243,6 +281,18 @@ export default {
     transition: all 0.5s;
     z-index: 20;
     overflow: hidden;
+    .lrc {
+      background-color: transparent;
+      color: white;
+      font-size: 30px;
+      line-height: 50px;
+      text-align: center;
+      margin-top: 300px;
+      width: 100vw;
+      .lrcActive {
+        color: rgb(0, 226, 0);
+      }
+    }
     .el-icon-arrow-down {
       position: absolute;
       top: 20px;
@@ -258,10 +308,12 @@ export default {
       // max-height: 100%;
       width: 100%;
       height: 100%;
-      // object-fit: cover;
+      object-fit: cover;
       filter: blur(30px) brightness(60%);
       transform: scale(1.1, 1.1);
       transition: all 0.3s;
+      position: absolute;
+      z-index: -1;
     }
   }
   .lrcClose {
@@ -273,11 +325,11 @@ export default {
     left: -20px;
     width: calc(100% + 30px);
   }
-  div {
-    width: 33%;
-  }
+
   .left {
     display: flex;
+    width: 33%;
+
     img {
       width: 40px;
       border-radius: 5px;
@@ -292,6 +344,8 @@ export default {
   }
   .middle {
     text-align: center;
+    width: 33%;
+
     .iconfont {
       font-size: 35px;
       margin: 0 6px;
@@ -301,10 +355,12 @@ export default {
     }
   }
   .right {
+    width: 33%;
+
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    .playTime{
+    .playTime {
       text-align: right;
     }
     .el-icon-s-fold {
