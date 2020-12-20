@@ -1,8 +1,16 @@
 <template>
   <div class="playControl">
     <!-- <progress value="22" max="100"></progress>  -->
+    <div class="lrc" :class="{ lrcClose: isLrcClose }">
+      <img :src="audioInfo.al.picUrl" alt="" class="bgImg" />
+      <i class="el-icon-arrow-down" @click="isLrcClose = true"></i>
+    </div>
     <div class="left">
-      <img :src="audioInfo.al.picUrl + '?param=50y50'" alt="" />
+      <img
+        :src="audioInfo.al.picUrl + '?param=50y50'"
+        alt=""
+        @click="isLrcClose = false"
+      />
       <div class="left-right">
         <span>{{ audioInfo.name }}</span>
       </div>
@@ -48,15 +56,18 @@ export default {
         },
         name: "网易云音乐",
       },
+      isLrcClose: true,
       audioUrl: "",
       myAudio: {},
       isPause: true,
       playTime: "0:00",
       endTime: "0:00",
+      lrc: {},
     };
   },
   mounted() {
     this.myAudio = document.getElementById("myAudio");
+    // 监听播放结束
     myAudio.addEventListener(
       "ended",
       () => {
@@ -67,6 +78,7 @@ export default {
       },
       false
     );
+    // 监听播放时间变化
     myAudio.addEventListener(
       "timeupdate",
       () => {
@@ -99,6 +111,55 @@ export default {
     );
   },
   methods: {
+    // 解析歌词
+    parseLyric(text) {
+      //先按行分割
+      var lyric = text.split("\n");
+      //新建一个数组存放最后结果
+      let lrc = new Array();
+      var _l = lyric.length;
+      for (let i = 0; i < _l; i++) {
+        //正则匹配播放时间返回一个数组
+        var sj = lyric[i].match(/\[\d{2}:\d{2}((\.|\:)\d{2})\]/g);
+        //获得该行歌词正文
+        var _lrc = lyric[i].replace(/\[\d{2}:\d{2}((\.|\:)\d{2})\]/g, "");
+        //过滤掉空行等非歌词正文部分
+        if (sj != null) {
+          //可能有多个时间标签对应一句歌词的情况，用一个循环解决
+          var _ll = sj.length;
+          for (let j = 0; j < _ll; j++) {
+            var _s = sj[j];
+            var min = Number(String(_s.match(/\[\d{2}/i)).slice(1));
+            var sec = parseFloat(String(_s.match(/\d{2}\.\d{2}/i)));
+            //换算时间，保留两位小数
+            var _t = Math.round((min * 60 + sec) * 100) / 100;
+            //把时间和对应的歌词保存到数组
+            lrc.push([_t, _lrc]);
+          }
+        }
+      }
+      //重新按时间排序
+      lrc.sort(function (a, b) {
+        return a[0] - b[0];
+      });
+      return lrc;
+    },
+    // 获取歌词
+    getLyric() {
+      request({
+        url: `/lyric?id=${this.audioInfo.id}`,
+      })
+        .then((res) => {
+          // console.log(res)
+          // 直接调取解析歌词
+          this.lrc = this.parseLyric(res.data.lrc.lyric);
+          console.log(this.lrc);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 获取播放url
     getAudioSrc() {
       this.audioInfo = this.$store.state.playlist[
         this.$store.state.currentPlay
@@ -108,22 +169,24 @@ export default {
       })
         .then((Response) => {
           this.audioUrl = Response.data.data[0].url;
+          this.getLyric();
         })
         .catch((error) => {
           console.error(error);
         });
       this.isPause = false;
     },
-
     // 暂停
     pauseMusic() {
       this.myAudio.pause();
       this.isPause = true;
     },
+    // 播放
     playMusic() {
       this.myAudio.play();
       this.isPause = false;
     },
+    // 上一首
     lastSong() {
       let tempID = this.audioInfo.id;
       console.log("lastSong");
@@ -137,6 +200,7 @@ export default {
         }
       }, 300);
     },
+    // 下一首
     nextSong() {
       let tempID = this.audioInfo.id;
       this.$store.commit("nextSong");
@@ -168,7 +232,41 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
-  progress{
+  .lrc {
+    position: absolute;
+    top: calc(-100vh + 60px);
+    left: -300px;
+    width: 100vw;
+    background-color: pink;
+    height: 100vh;
+    transition: all 0.5s;
+    z-index: 20;
+    overflow: hidden;
+    .el-icon-arrow-down {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 25px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .bgImg {
+      // width: auto;
+      // height: auto;
+      // max-width: 100%;
+      // max-height: 100%;
+      width: 100%;
+      height: 100%;
+      // object-fit: cover;
+      filter: blur(30px) brightness(60%);
+      transform: scale(1.1, 1.1);
+      transition: all 0.3s;
+    }
+  }
+  .lrcClose {
+    top: 60px;
+  }
+  progress {
     position: absolute;
     top: -10px;
     left: -20px;
@@ -182,6 +280,7 @@ export default {
     img {
       width: 40px;
       border-radius: 5px;
+      cursor: pointer;
     }
     .left-right {
       margin-left: 10px;

@@ -10,7 +10,10 @@
       </div>
       <div class="rightContainerDiv2">
         <!-- <button>已收藏({{ subscribedCount }})</button> -->
-        <el-button round @click="commitSubscribed()"
+        <el-button
+          round
+          :type="subscribed == true ? 'primary' : ''"
+          @click="commitSubscribed()"
           >{{ subscribed == true ? "已收藏" : "收藏" }}({{
             subscribedCount
           }})</el-button
@@ -115,6 +118,7 @@ export default {
     },
   },
   methods: {
+    // 收藏按钮按下
     commitSubscribed() {
       if (this.subscribed) {
         this.$confirm("确定将取消收藏歌单, 是否继续?", "提示", {
@@ -123,6 +127,7 @@ export default {
           type: "warning",
         })
           .then(() => {
+            // 确认取消调用请求收藏接口
             this.requestSubscribed();
           })
           .catch(() => {
@@ -135,6 +140,7 @@ export default {
         this.requestSubscribed();
       }
     },
+    // 发送收藏或取消收藏
     requestSubscribed() {
       request({
         url: `/playlist/subscribe?t=${this.subscribed ? "2" : "1"}&id=${
@@ -145,7 +151,11 @@ export default {
           console.log(res);
           this.$message({
             type: "success",
-            message: `${this.subscribed == true ? "取消收藏成功，刷新页面查看效果" : "收藏成功，刷新页面查看效果"}`,
+            message: `${
+              this.subscribed == true
+                ? "取消收藏成功，刷新页面查看效果"
+                : "收藏成功，刷新页面查看效果"
+            }`,
           });
         })
         .catch((err) => {
