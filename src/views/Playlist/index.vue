@@ -101,7 +101,7 @@ export default {
           this.$route.params.id
         }&cookie=${localStorage.getItem(
           "Cookie"
-        )}&&timestamp=${new Date().getTime()}`,
+        )}&timestamp=${new Date().getTime()}`,
       })
         .then((Response) => {
           console.log(Response);

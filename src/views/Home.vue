@@ -1,11 +1,9 @@
 <template>
   <div class="home">
     <el-container class="container">
-      <div class="asideContainer">
         <el-aside width="290px">
           <aside-com></aside-com>
         </el-aside>
-      </div>
       <el-container>
         <el-header><header-com></header-com></el-header>
         <el-main>
@@ -67,10 +65,6 @@ export default {
     top: 0;
     right: 0;
   }
-}
-.asideContainer {
-  width: calc(290px - 26px);
-  overflow: hidden;
 }
 .el-aside {
   background-color: #f0f0f0;

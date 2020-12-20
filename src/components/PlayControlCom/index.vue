@@ -236,7 +236,7 @@ export default {
   .lrc {
     position: absolute;
     top: calc(-100vh + 59px);
-    left: -300px;
+    left: -310px;
     width: 100vw;
     background-color: pink;
     height: 100vh;
