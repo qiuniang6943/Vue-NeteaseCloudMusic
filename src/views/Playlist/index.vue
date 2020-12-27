@@ -78,7 +78,6 @@ export default {
         url: `/related/playlist?id=${this.$route.params.id}`,
       })
         .then((res) => {
-          // console.log(res);
           this.relatedPlaylist = res.data.playlists;
         })
         .catch((err) => {

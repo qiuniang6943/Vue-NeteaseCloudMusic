@@ -8,7 +8,7 @@
         prefix-icon="el-icon-search"
         v-model="search"
         size="small"
-      >
+        @keyup.enter.native="goSearch()">
       </el-input>
     </div>
     <div class="rightBox">
@@ -56,17 +56,12 @@ export default {
   },
   mounted() {
     this.getLoginStatus();
-
-    // setInterval(()=>{
-    //   this.getLoginStatus()
-    // }, 3000);
-    // this.$message({
-    //   message:
-    //     "后台有点问题，已登录会返回未登录，如果已经登录但是显示未登录，多刷新几次",
-    //   type: "warning",
-    // });
   },
   methods: {
+    goSearch(){
+      console.log('111')
+      router.push({ path: "/Search/" + this.search });
+    },
     back() {
       router.go(-1);
     },

@@ -7,6 +7,7 @@ import Ilike from '@/views/Ilike.vue'
 import Login from '@/views/Login.vue'
 import PlayVideo from '@/views/PlayVideo'
 import Playlist from '@/views/Playlist'
+import Search from '@/views/Search'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
         path: 'Playlist/:id',
         name:'Playlist',
         component: Playlist
+      },
+      {
+        path: 'Search/:keywords',
+        name:'Search',
+        component: Search
       }
     ]
   },

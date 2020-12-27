@@ -4,25 +4,13 @@
     <div class="lrcBox" :class="{ lrcClose: isLrcClose }">
       <img :src="audioInfo.al.picUrl + '?param=500y400'" alt="" class="bgImg" />
       <i class="el-icon-arrow-down" @click="isLrcClose = true"></i>
+      <i class="el-icon-s-fold" @click="$emit('open')"></i>
       <div class="lrc">
         <div class="" v-for="(item, index) in lrc" :key="index">
-          <!-- <p
-            v-if="
-              currentTime > lrcTime[index - 4] &&
-              currentTime < lrcTime[index + 3]
-            "
-            :class="{
-              lrcActive:
-                currentTime > lrcTime[index] &&
-                currentTime < lrcTime[index + 1],
-            }"
-          >
-            {{ item[1] }}
-          </p> -->
           <p
             v-if="
               currentTime > lrcTime[index - 3] &&
-              currentTime < lrcTime[index + 1]
+              currentTime < lrcTime[index + 3]
             "
             :class="{
               lrcActive:
@@ -301,11 +289,15 @@ export default {
       cursor: pointer;
       color: rgba(255, 255, 255, 0.9);
     }
+    .el-icon-s-fold{
+       position: absolute;
+      top: 25px;
+      right: 60px;
+      font-size: 28px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.9);
+    }
     .bgImg {
-      // width: auto;
-      // height: auto;
-      // max-width: 100%;
-      // max-height: 100%;
       width: 100%;
       height: 100%;
       object-fit: cover;

@@ -5,17 +5,17 @@
       <source :src="playUrl" type="video/mp4" />
     </video>
     <div>
-      <h1>{{ MVInfo.name }}</h1>
-      <p>
+      <h1 class="MVName">{{ MVInfo.name }}</h1>
+      <p  class="MVMsg">
         演唱:
         <span v-for="(item, index) in MVInfo.artists" :key="index">{{
           item.name
         }}</span>
-        <span>播放数:{{ MVInfo.playCount }}</span>
-        <span>发布时间:{{ MVInfo.publishTime }}</span>
+        <span class="playCount">播放数:{{ MVInfo.playCount }}</span>
+        <span class="publishTime">发布时间:{{ MVInfo.publishTime }}</span>
       </p>
       <!-- v-if为了防止数据还没获取过来就渲染出元素，导致报错 -->
-      <div v-if="MVInfo">
+      <div v-if="MVInfo" class="MVInfo">
         <div v-for="(item, index) in MVDesc" :key="index">{{ item }}</div>
       </div>
     </div>
@@ -78,7 +78,18 @@ export default {
 .playVideoContainer {
     max-width: 1300px;
     margin: 0 auto;
-  video {
+  
+  .MVName{
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  .MVMsg span{
+    font-size: 15px;
+    margin-right: 10px;
+  }
+  .MVInfo{
+    margin-top: 10px;
+    line-height: 25px;
   }
 }
 </style>
