@@ -1,16 +1,23 @@
 <template>
   <div class="musicHallContainer">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="精选" name="first"></el-tab-pane>
+      <el-tab-pane label="歌手" name="second"></el-tab-pane>
+      <el-tab-pane label="排行" name="third"></el-tab-pane>
+      <el-tab-pane label="歌单" name="fourth"></el-tab-pane>
+    </el-tabs>
     <title-com>音乐馆</title-com>
+    
     <title-com>每日推荐歌单</title-com>
     <div class="recommendPlaylistContainer">
       <div
         class="recommendPlaylist"
         v-for="(item, index) in recommendPlaylist"
         :key="index"
-        @click="$router.push({name:'Playlist',params: {id:item.id}})"
+        @click="$router.push({ name: 'Playlist', params: { id: item.id } })"
       >
         <img :src="item.picUrl + '?param=250y250'" alt="" />
-        <p>{{item.name}}</p>
+        <p>{{ item.name }}</p>
       </div>
     </div>
   </div>
@@ -24,6 +31,7 @@ export default {
   data() {
     return {
       recommendPlaylist: {},
+      activeName: "first",
     };
   },
   created() {
@@ -31,6 +39,17 @@ export default {
     // this.getRecommendSongs()
   },
   methods: {
+    handleClick(tab, event) {
+      console.log(tab);
+      switch (tab.label){
+        case "歌手" : 
+        this.$router.push('/video')
+        break;
+        case "排行" :
+        this.$router.push('/video')
+        break;
+      }
+    },
     // 获取每日推荐歌单
     getRecommendPlayList() {
       request({
@@ -77,8 +96,8 @@ export default {
       margin-top: 20px;
       margin-right: 20px;
       width: 200px;
-      transition: all .2s;
-      &:hover{
+      transition: all 0.2s;
+      &:hover {
         transform: translateY(-10px);
       }
       img {
@@ -86,7 +105,7 @@ export default {
         border-radius: 10px;
         cursor: pointer;
       }
-      p{
+      p {
         font-size: 14px;
         color: #373737;
         padding: 2px 5px;

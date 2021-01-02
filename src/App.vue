@@ -5,6 +5,11 @@
 </template>
 
 <style lang="scss">
+
+@import './assets/iconfont/iconfont.css';
+
+
+
 #app,html,body{
   height: 100%;
 }
