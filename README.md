@@ -15,6 +15,9 @@
 
 ## 🚀 如何运行
 
+在下面的步骤之前，需要运行[网易云音乐 API](https://binaryify.github.io/NeteaseCloudMusicApi/#/)，这个我就不过多介绍了，大家直接去看。
+或者也可以使用我已搭建好的[API](http://wangyinglong.cn:3000/)
+
 ``` 
 # 克隆
 # github
@@ -36,6 +39,11 @@ npm install
 ```
 # 开启本地服务运行项目
 npm run serve
+```
+
+```
+# baseURL修改目录
+src/request/request.js
 ```
 
 **欢迎 star，欢迎 issue**
@@ -92,8 +100,6 @@ npm run serve
 
 有点多，晚点更新
 
-## baseURL修改目录
-src/request/request.js
 
 ## 作者
 
