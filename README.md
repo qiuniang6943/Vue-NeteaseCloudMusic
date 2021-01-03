@@ -1,4 +1,4 @@
-# couldmusic
+# Vue-NeteaseCloudMusic
 
 ## 💬前言
 随着不断的学习 Vue，需要做一个小项目通过在实现项目过程中了解到更多的知识。项目通过 Vue 编写实现，Element-UI做了部分快速布局,到今天为止也算是勉强能用了。
